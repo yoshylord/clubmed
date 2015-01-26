@@ -33,6 +33,11 @@ body img {
 	margin-left: 10px;
 }
 
+#menu-top .bloc-menu-top-info {
+    display: block;
+    z-index: 1;
+}
+
 #menu-top .Icon--arrowDown {
 	font-size: 0.45em;
 	margin: 0 0.5em 0.2em;
@@ -76,7 +81,6 @@ body img {
 	margin-top:10px;
 }
 
-
 #menu-top li small {
 	font-family: Trade Gothic,Trade Gothic W01,Trade Gothic wf,Helvetica Neue,Helvetica,Arial,sans-serif;
 	font-size: 11px;
@@ -84,59 +88,68 @@ body img {
 	text-transform: none;
 }
 
+#menu-top a, #menu-top a:hover, #menu-top a:focus {
+    color: #FFF;
+}
 
 
-.Countries-zones {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+#modal-country .modal-dialog {
+    width: 900px;
 }
-.Countries-zone {
-	padding: 1.25em;
+#modal-country .modal-title {
+    font-family: 'Trade Gothic', 'Trade Gothic W01', 'Trade Gothic wf', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(102, 102, 102);
 }
-.Countries-zoneName {
-font-size: 0.875em;
-display: inline-block;
-margin: 0;
-width: 15em;
-vertical-align: top;
-text-transform: uppercase;
-font-weight: normal;
-color: #000;
+
+#modal-country .modal-body {
+    display: block;
+    padding: 0px 10px
+    margin: 0;
 }
-.Countries-countryList {
-display: inline-block;
-list-style: none;
-margin: 0;
-padding: 0;
-width: 56em;
-vertical-align: top;
+
+#modal-country ul.Countries-zones {
+    display: block;
+    padding: 0;
+    margin: 0;
 }
-.Countries-country {
-margin: 0 0 0.3125em;
-width: 10.875em;
-display: inline-block;
+#modal-country li.Countries-zone {
+    display: block;
+    width: 900px;
 }
-.Countries-countryName {
-font-size: 0.875em;
+
+#modal-country ul.modal-country-areas {
+    display: block;
+    width: 900px;
 }
-.Countries-flag {
-margin: -2px 0.5em 0;
+#modal-country li {
+    width: 150px;
+    display: block;
+    float: left;
 }
-.Countries-countryText {
-vertical-align: middle;
+
+#modal-country li, #modal-country li a, #modal-country li a span {
+    font-family: 'Trade Gothic', 'Trade Gothic W01', 'Trade Gothic wf', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: rgb(102, 102, 102);
 }
-.Countries-countryLink {
-vertical-align: middle;
-text-decoration: none;
-color: #666;
-}
-.Countries-countryLink--sub {
-text-decoration: underline;
-}
+
+
+
 .FlagIcon {
 	background-image: url("../img/flags-x2.png");
 	background-size: 21px 1050px;
+    display: bloc;
+    width: 17px;
+    height: 15px;
+    float: left;
+    margin-right: 5px;
+}
+
+
+#modal-country .modal-footer {
+    clear: both;
 }
 
 .FlagIcon--argentina {
@@ -810,6 +823,8 @@ text-align: center;
 	background: url('../img/featured-3.jpg');
 }
 
+
+
 .bloc-bg-destinations-0 {
 	background: url('../img/destinations-0.png');
 }
@@ -837,6 +852,118 @@ text-align: center;
 .bloc-bg-destinations-8 {
 	background: url('../img/destinations-8.jpg');
 }
+
+
+
+.bloc-config-deals .featured {
+    bottom: 0px;
+    position: absolute;
+    padding:16px;
+    margin-right: 15px;
+}
+.bloc-config-deals img {
+    /*position: absolute;*/
+    width: 100%;
+}
+.bloc-config-deals h1 {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #FFF;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0% 0%;
+    background-repeat: repeat;
+    color: #000;
+    display: inline-block;
+    font-family: Trade Gothic,Trade Gothic W01,Trade Gothic wf,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 16px;
+    margin-top: 12px;
+    padding-bottom: 7px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 10px;
+    position: relative;
+    text-align:left;
+    text-transform: uppercase;
+    margin-top: 60px;
+    padding-left:32px;
+
+    position: absolute;
+    left: 9px;
+}
+.bloc-config-deals h2 {
+    color: #060606;
+    font-family: Trade Gothic,Trade Gothic W01,Trade Gothic wf,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 36px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 4.5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 4.5px;
+    text-align:left;
+}
+.bloc-config-deals p {
+    color: #060606;
+    font-family: Trade Gothic,Trade Gothic W01,Trade Gothic wf,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 22px;
+    line-height: 26.4px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 4.4px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 4.4px;
+    text-align:left;
+}
+
+
+.bloc-config-deals .featured-small {
+    background: none repeat scroll 0% 0% rgba(51, 51, 51, 0.85);
+    height: 80px;
+    width: 95.4%;
+}
+
+
+.bloc-config-deals .featured-small h2 {
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 2.25px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 2.25px;
+
+}
+.bloc-config-deals .featured-small p {
+    color: #FFF;
+    font-family: Trade Gothic,Trade Gothic W01,Trade Gothic wf,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 12.6px;
+    line-height: 15.1167px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 2.51667px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 2.51667px;
+
+}
+
 
 .featured {
 	bottom: 0px;
