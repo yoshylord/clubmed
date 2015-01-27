@@ -1368,3 +1368,14 @@ section {
 
 
 
+
+#testGrid .col-md-4, #testGrid .col-md-8, #testGrid .col-md-12 {
+	padding-bottom: 9px;
+	padding-top : 9px;
+}
+#myModal label{
+	font-size: 14px;
+}
+#edit-menu {
+	z-index: 2000;
+}

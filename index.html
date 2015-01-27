@@ -165,6 +165,60 @@ http://hd4desktop.com/images/b/1366x768_nfs-carbon-asian-girl-wide-HD-Wallpaper.
             </div>
         </section>
 
+
+        <section id="tesGridSection" class="edito-grid">
+            <div class="row" id="testGrid">
+
+            </div>
+        </section>
+
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Edit block : <span id="myModal-title"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="myModal-form" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="myModal-img" class="control-label col-sm-3">Image</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="myModal-img">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="myModal-text" class="control-label col-sm-3">Text</label>
+                                <div class="col-sm-9">
+                                <input type="text" class="form-control" id="myModal-text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="myModal-order" class="control-label col-sm-3">Ordre</label>
+                                <div class="col-sm-9">
+                                <input type="text" class="form-control" id="myModal-order">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="myModal-size" class="control-label col-sm-3">Taille</label>
+                                <div class="col-sm-9">
+                                <select name="myModal-size" id="myModal-size" class="form-control">
+                                    <option value="1">S</option>
+                                    <option value="2">M</option>
+                                    <option value="3">L</option>
+                                </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" id="myModal-save" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+<!--
 	    <section id="section-discover">
             <div class="row">
                 <div class="col-md-4">
@@ -207,7 +261,7 @@ http://hd4desktop.com/images/b/1366x768_nfs-carbon-asian-girl-wide-HD-Wallpaper.
                 </div>
             </div>
         </section>
-		
+		-->
 	    <section id="section-destination">
             <div class="row">
                 <div class="col-md-4">
@@ -977,11 +1031,11 @@ http://hd4desktop.com/images/b/1366x768_nfs-carbon-asian-girl-wide-HD-Wallpaper.
         $("#no").addClass("active");
 
         $("#yes").click(function() {
-            $(".edito").addClass("edito-on");
+            $(".edito,.edito-grid").addClass("edito-on");
             $("#no").removeClass("active");
         });
         $("#no").click(function() {
-            $(".edito").removeClass("edito-on");
+            $(".edito,.edito-grid").removeClass("edito-on");
             $("#yes").removeClass("active");
         });
 
@@ -989,9 +1043,120 @@ http://hd4desktop.com/images/b/1366x768_nfs-carbon-asian-girl-wide-HD-Wallpaper.
             window.location.href = './index.html?lang='+lang;
         });
 
-    };
+    }
+    function editGrid(lang) {
+
+        var gridId = "testGrid";
+
+        function getBlock(gridData, blockIdx) {
+            var block;
+            for (var i = 0;i<gridData.blocks.length;i++) {
+                if (gridData.blocks[i].id === blockIdx) {
+                    block = gridData.blocks[i];
+                    break;
+                }
+            }
+            return block;
+        }
+
+        function writeGrid(gridData) {
+            var gridEl = $("#"+gridId);
+            gridEl.empty();
+            gridEl.append($(writeBlock(gridData.header)));
+            gridData.blocks = gridData.blocks.sort(function(a,b) {
+                return parseInt(b.order,10) < parseInt(a.order,10);
+            });
+            for (var i=0;i<gridData.blocks.length;i++) {
+
+                var block = gridData.blocks[i];
+                if (!block.id) block.id = i;
+
+                var blockElement = $(writeBlock(block));
+                blockElement.click(function() {
+                    var blockIdx = $(this).data("block-idx");
+                    var currentBlock = getBlock(gridData, blockIdx);
+                    if (!currentBlock) return;
+                    $("#myModal-form").data("block-idx", blockIdx);
+                    $("#myModal-title").text(currentBlock.text);
+                    $("#myModal-img").val(currentBlock.img);
+                    $("#myModal-text").val(currentBlock.text);
+                    $("#myModal-order").val(currentBlock.order);
+                    $("#myModal-size").val(currentBlock.size);
+                    $('#myModal').modal('show');
+                });
+
+                gridEl.append(blockElement);
+            }
+            $("#myModal-save").click(function() {
+                var blockIdx =  $("#myModal-form").data("block-idx");
+                var block = getBlock(gridData, blockIdx);
+                if (!block) return;
+
+                block.img =  $("#myModal-img").val();
+                block.text =  $("#myModal-text").val();
+                block.order =  $("#myModal-order").val();
+                block.size =  $("#myModal-size").val();
+
+
+                // persist gridData using api
+                var cmsId = "HOME." + gridId;
+                var content = {key:cmsId,value:encodeURIComponent(JSON.stringify(gridData))};
+                writeGrid(gridData);
+                $.ajax({
+                    url: "http://api.clubmed.chantalou.fr/v1/editorials/" + cmsId,
+                    type: 'PATCH',
+                    contentType: "application/json",
+                    crossDomain: true,
+                    headers: {
+                        'Accept-Language': '"' + lang + '"'
+                    },
+                    data: JSON.stringify(content),
+                    success:function () {
+                        $('#myModal').modal('hide');
+                    },
+                    error:function (e) {
+                        console.log("persist grid fail",e);
+                    }
+                });
+            })
+        }
+
+        function writeBlock(block) {
+            return '<div class="col-md-'+(block.size*4)+'" id="block-' + block.id + '" data-block-idx="'+block.id +'">'+
+                    '<div class="bloc bloc-featured-discover">'+
+                    (block.img ? '<img class="edito" src="' + block.img + '">': '')+
+                    '<div class="featured">'+
+                    (block.text ? '<h1 class="edito">'+block.text+'</h1>' : '')+
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+        }
+
+        function loadDataCallback(gridData) {
+            writeGrid(gridData);
+        }
+        $.ajax({
+            url: "http://api.clubmed.chantalou.fr/v1/editorials/HOME."+gridId,
+            type:'GET',
+            dataType: "json",
+            crossDomain: true,
+            headers: {
+                'Accept-Language': '"'+lang+'"',
+            },
+            success: function(data) {
+                loadDataCallback(JSON.parse(decodeURIComponent(data.value)));
+            },
+            error: console.log("error ajax editorials")
+        });
+    }
+
 
 	$(document).ready(function() {
+        // check app parameters
+        var lang = _parameter(window.location, 'lang');
+        console.log('detected language: '+lang);
+        if(lang == "" ) lang = "en-US"; // set default
+
 
         // O_o Application
         $('#menu-discover').bind("click", function(e) {
@@ -1001,18 +1166,10 @@ http://hd4desktop.com/images/b/1366x768_nfs-carbon-asian-girl-wide-HD-Wallpaper.
             scrollToSection('section-destination');
         });
 
-        // check app parameters
-        var lang = _parameter(window.location, 'lang');
-        console.log('detected language: '+lang);
-        if(lang == "" ) lang = "en-US"; // set default
-
         // O_o load application configuration
         load_app(lang);
 
         // O_o Edit mode
-
-
-
         $("#country-label").html(lang.slice(-2));
 
 		$(".country").click(function() {
@@ -1036,6 +1193,8 @@ http://hd4desktop.com/images/b/1366x768_nfs-carbon-asian-girl-wide-HD-Wallpaper.
             $('*').unbind('click');
             displayEditoMenu(lang);
         }
+
+        editGrid(lang);
 		
 		// load editorials
 		$(".edito").each(function( index ) {
